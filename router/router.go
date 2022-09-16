@@ -11,5 +11,5 @@ func Routers(c *gin.Engine, h controller.UserHandler) {
 	c.POST("/users", h.PostUser)
 	c.GET("/users/:id", h.GetByID)
 	c.DELETE("/users/:id", h.DeleteById)
-	c.PUT("/users", h.UpdateUser)
+	c.PUT("/users/:id", h.UpdateUser)
 }

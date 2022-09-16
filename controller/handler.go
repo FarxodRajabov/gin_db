@@ -62,13 +62,27 @@ func (h Handler) GetByID(c *gin.Context) {
 }
 
 func (h Handler) DeleteById(c *gin.Context) {
-	//TODO implement me
-	panic("implement me")
+	id := c.Param("id")
+	_, err := h.db.Exec("delete from Products where id = $1", id)
+	if err != nil {
+		panic(err)
+	}
+
+	c.IndentedJSON(http.StatusOK, id)
 }
 
 func (h Handler) UpdateUser(c *gin.Context) {
-	//TODO implement me
-	panic("implement me")
+	id := c.Param("id")
+	var updUser model.Product
+	if err := c.BindJSON(&updUser); err != nil {
+		panic(err)
+	}
+	_, err := h.db.Exec("update Products set price = $1,model=$2,company = $3 where id = $4", updUser.Price, updUser.Model, updUser.Price, id)
+	if err != nil {
+		panic(err)
+	}
+
+	c.IndentedJSON(http.StatusOK, gin.H{"massage": "seccesful updated"})
 }
 
 type UserHandler interface {
